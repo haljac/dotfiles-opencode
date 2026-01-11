@@ -48,6 +48,12 @@ Skills are on-demand instructions that OpenCode loads when relevant.
 - Use `build-verify` skill to verify changes before completing tasks
 - Language-specific guidance for Go, Python, and TypeScript
 
+### MCP Servers
+
+- **playwright** - Browser automation for verifying web UI changes, taking
+  screenshots, interacting with pages. Uses Microsoft's official
+  [@playwright/mcp](https://github.com/microsoft/playwright-mcp) server.
+
 ## Project Convention
 
 For best results, structure your projects with:
@@ -129,6 +135,36 @@ command/
 ```
 
 The filename becomes the command name (`/my-command`).
+
+### Adding MCP Servers
+
+Edit `opencode.json` and add to the `mcp` object:
+
+```json
+{
+  "mcp": {
+    "my-server": {
+      "type": "local",
+      "command": ["npx", "my-mcp-server"],
+      "enabled": true
+    }
+  }
+}
+```
+
+For remote MCP servers:
+
+```json
+{
+  "mcp": {
+    "my-remote": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
 
 ## File Structure
 
