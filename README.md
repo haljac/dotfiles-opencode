@@ -48,12 +48,6 @@ Skills are on-demand instructions that OpenCode loads when relevant.
 - Use `build-verify` skill to verify changes before completing tasks
 - Language-specific guidance for Go, Python, and TypeScript
 
-### MCP Servers
-
-- **playwright** - Browser automation for verifying web UI changes, taking
-  screenshots, interacting with pages. Uses Microsoft's official
-  [@playwright/mcp](https://github.com/microsoft/playwright-mcp) server.
-
 ## Project Convention
 
 For best results, structure your projects with:
@@ -136,9 +130,10 @@ command/
 
 The filename becomes the command name (`/my-command`).
 
-### Adding MCP Servers
+### Adding MCP Servers (Per-Project)
 
-Edit `opencode.json` and add to the `mcp` object:
+MCP servers add to context, so they're best configured per-project rather than
+globally. Add to your project's `opencode.json`:
 
 ```json
 {
@@ -152,19 +147,27 @@ Edit `opencode.json` and add to the `mcp` object:
 }
 ```
 
-For remote MCP servers:
+#### Recommended: Playwright for Web Projects
+
+For projects with a web UI, add the Playwright MCP server to enable browser
+automation, screenshots, and UI verification:
 
 ```json
 {
+  "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "my-remote": {
-      "type": "remote",
-      "url": "https://mcp.example.com/mcp",
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp@latest"],
       "enabled": true
     }
   }
 }
 ```
+
+This enables OpenCode to navigate pages, interact with elements, take
+screenshots, fill forms, and verify UI changes. See
+[@playwright/mcp](https://github.com/microsoft/playwright-mcp) for details.
 
 ## File Structure
 
